@@ -1,0 +1,24 @@
+{
+  "name": "odin_binarysearchtree",
+  "version": "1.0.0",
+  "description": "Odin Project's binary search tree (BST) implementation project.  Building a balanced BST in this assignment.",
+  "homepage": "https://github.com/Crisk-o/Odin_BinarySearchTree#readme",
+  "bugs": {
+    "url": "https://github.com/Crisk-o/Odin_BinarySearchTree/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Crisk-o/Odin_BinarySearchTree.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "webpack-cli": "^7.0.2",
+    "webpack-dev-server": "^5.2.3"
+  }
+}
