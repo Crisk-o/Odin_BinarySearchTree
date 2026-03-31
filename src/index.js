@@ -10,10 +10,11 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
 }
 
 
-let myArr = [5, 6, 2, 4];
+let myArr = [5, 6, 6, 2, 4];
 let myTree = new Tree(myArr);
 
 
 
-console.log(myTree.root);
+console.log("Root: " + myTree.root.toString());
+console.log("root: left=" + myTree.root.left + " & right=" + myTree.root.right)
 console.log(prettyPrint(myTree));
