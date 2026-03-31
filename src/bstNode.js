@@ -80,8 +80,15 @@ export class Tree{
     }
     // takes given value, creates bstnode, and places in tree.
     // if value already in tree, do nothing.
-    insert(value){}
+    insert(value){
+        if(this.includes(value))
+            return; // val in tree. Do nothing.
+        let newNode = this.BSTadd(this.root, value);
+    }
+
+    
     deleteItem(value){}
+
     // traverses tree in breadth-first order
     // if no callback provided, throw an Error that callback is req.
     levelOrderForEach(callback){
