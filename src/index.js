@@ -21,7 +21,9 @@ myTree.levelOrderForEach(myTree.printTree);
 console.log("testing deleteItem(5555) (val not in tree): " + myTree.deleteItem(5555));
 console.log("testing deleteItem(33) (leaf node): " + myTree.deleteItem(33));
 prettyPrint(myTree.root);
-
-console.log("testing deleteItem(8) (node w/ one child): " + myTree.deleteItem(8));
-
+console.log("testing deleteItem(8) (node w/ one child - on left): " + myTree.deleteItem(8));
+prettyPrint(myTree.root);
+console.log("testing deleteItem(8) (node w/ one child - on right): " + myTree.deleteItem(7));
+prettyPrint(myTree.root);
+console.log("testing deleteItem(3) (node w/ two children): " + myTree.deleteItem(3));
 prettyPrint(myTree.root);
