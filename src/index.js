@@ -14,10 +14,8 @@ let myArr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324, 55];
 let myTree = new Tree(myArr);
 
 
-console.log("testing includes(): " + myTree.includes(4)); // true
-myTree.levelOrderForEach(myTree.printTree);
-console.log("testing insert(value): " + myTree.insert(33));
-myTree.levelOrderForEach(myTree.printTree);
+console.log("testing includes(4): " + myTree.includes(4)); // true
+console.log("testing insert(33): " + myTree.insert(33));
 console.log("testing deleteItem(5555) (val not in tree): " + myTree.deleteItem(5555));
 console.log("testing deleteItem(33) (leaf node): " + myTree.deleteItem(33));
 prettyPrint(myTree.root);
@@ -29,5 +27,11 @@ console.log("testing deleteItem(3) (node w/ two children): " + myTree.deleteItem
 prettyPrint(myTree.root);
 console.log("testing deleteItem(5) (node w/ one child who is parent): " + myTree.deleteItem(5));
 prettyPrint(myTree.root);
+// traversal testing:
+myTree.levelOrderForEach(myTree.printTree);
+// myTree.preOrderForEach(myTree.printTree);
+
+myTree.inOrderForEach(myTree.printTree);
+// myTree.postOrderForEach(myTree.printTree);
 
 

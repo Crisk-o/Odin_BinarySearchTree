@@ -138,11 +138,13 @@ export class Tree{
         }
         return node;
     }
+    // finds smallest value in tree starting from node down.
     min(node){
         while(node.left !== null)
             node = node.left;
         return node;
     }
+    // finds largest value in tree starting from node down.
     max(node){
         while(node.right !== null)
             node = node.right;
@@ -169,18 +171,77 @@ export class Tree{
     }
 
     // traverse tree in respective depth-first orders. throw error if no callback provided.
-    inOrderForEach(callback){}
-    preOrderForEach(callback){}
-    postOrderForEach(callback){}
+    // traverse tree: left -> root -> right
+    inOrderForEach(callback){
+        if(typeof callback !== "function"){
+            throw new Error("Must provide a function as argument to inOrderForEach");
+        }
+        if(this.root == null || this.root == undefined) return;
+        return this.inOrderHelper(this.root, callback); 
+    }
+    inOrderHelper(node, callback){
+        if(node === null) return;
+        // go left
+        this.inOrderHelper(node.left, callback);
+        // visit node
+        callback(node);
+        // go right
+        this.inOrderHelper(node.right, callback);
+        
 
-        // prints tree to console one node at time.
-    printTree = (current) => {
+    }
+    // traverse tree: root -> left -> right
+    preOrderForEach(callback){
+        if(typeof callback !== "function"){
+            throw new Error("Must provide a function as argument to preOrderForEach");
+        }
+        let current = this.root;
+        if(current == null || current == undefined) return;
+        callback(current);
+        this.preOrderForEach(current.left);
+        this.preOrderForEach(current.right);
+    }
+    // traverse tree: left -> right -> root
+    postOrderForEach(callback){
+        if(typeof callback !== "function"){
+            throw new Error("Must provide a function as argument to postOrderForEach");
+        }
+        let current = this.root;
+        if(current == null || current == undefined) return;
+        this.postOrderForEach(current.left);
+        this.postOrderForEach(current.right);
+        callback(current);
+    }
+
+    // prints node to console. Pass to forEach traversal methods.
+    printTree(current){
+        if(current === null) return;
         console.log(current.info + " ");
-    };
+    }
     // returns height of node with given value. Return undef if not found.
-    height(value){}
+    height(value){
+        if(this.includes(value)){
+            let height = 0;            
+            if(this.root.info == value){
+                return height;
+            }
+            while(this.root.left != null || this.root.right != null){
+                
+                height++;
+            }
+            // traverse to target node.
+
+            
+        }
+        return undefined;
+    }
     // returns depth of node with given value. Return undef if not found.
-    depth(value){}
+    depth(value){
+        if(this.includes(value)){
+
+        }
+        return undefined;
+    }
     // checks if tree is balanced. 
     // height diff btwn left/right subtrees is no more than 1 
     //    and both left/right subtrees are also balanced.
