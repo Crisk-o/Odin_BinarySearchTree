@@ -18,4 +18,7 @@ console.log("testing includes(): " + myTree.includes(4)); // true
 myTree.levelOrderForEach(myTree.printTree);
 console.log("testing insert(value): " + myTree.insert(33));
 myTree.levelOrderForEach(myTree.printTree);
+console.log("testing deleteItem(5555) (val not in tree): " + myTree.deleteItem(5555));
+console.log("testing deleteItem(33) (leaf node): " + myTree.deleteItem(33));
+
 prettyPrint(myTree.root);
