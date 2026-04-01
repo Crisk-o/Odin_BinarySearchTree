@@ -29,9 +29,11 @@ console.log("testing deleteItem(5) (node w/ one child who is parent): " + myTree
 prettyPrint(myTree.root);
 // traversal testing:
 myTree.levelOrderForEach(myTree.printTree);
-// myTree.preOrderForEach(myTree.printTree);
-
+console.log("preOrder: ");
+myTree.preOrderForEach(myTree.printTree);
+console.log("inOrder: ")
 myTree.inOrderForEach(myTree.printTree);
-// myTree.postOrderForEach(myTree.printTree);
+console.log("postOrder: ");
+myTree.postOrderForEach(myTree.printTree);
 
 

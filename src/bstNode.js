@@ -177,40 +177,44 @@ export class Tree{
             throw new Error("Must provide a function as argument to inOrderForEach");
         }
         if(this.root == null || this.root == undefined) return;
-        return this.inOrderHelper(this.root, callback); 
+        return this.#inOrderHelper(this.root, callback); 
     }
-    inOrderHelper(node, callback){
+    #inOrderHelper(node, callback){
         if(node === null) return;
         // go left
-        this.inOrderHelper(node.left, callback);
+        this.#inOrderHelper(node.left, callback);
         // visit node
         callback(node);
         // go right
-        this.inOrderHelper(node.right, callback);
-        
-
+        this.#inOrderHelper(node.right, callback);
     }
     // traverse tree: root -> left -> right
     preOrderForEach(callback){
         if(typeof callback !== "function"){
             throw new Error("Must provide a function as argument to preOrderForEach");
         }
-        let current = this.root;
-        if(current == null || current == undefined) return;
-        callback(current);
-        this.preOrderForEach(current.left);
-        this.preOrderForEach(current.right);
+        if(this.root == null || this.root == undefined) return;
+        return this.#preOrderHelper(this.root, callback);
+    }
+    #preOrderHelper(node, callback){
+        if(node == null) return;
+        callback(node);
+        this.#preOrderHelper(node.left, callback);
+        this.#preOrderHelper(node.right, callback);
     }
     // traverse tree: left -> right -> root
     postOrderForEach(callback){
         if(typeof callback !== "function"){
             throw new Error("Must provide a function as argument to postOrderForEach");
         }
-        let current = this.root;
-        if(current == null || current == undefined) return;
-        this.postOrderForEach(current.left);
-        this.postOrderForEach(current.right);
-        callback(current);
+        if(this.root == null || this.root == undefined) return;
+        return this.#postOrderHelper(this.root, callback);
+    }
+    #postOrderHelper(node, callback){
+        if(node === null) return;
+        this.#postOrderHelper(node.left, callback);
+        this.#postOrderHelper(node.right, callback);
+        callback(node);
     }
 
     // prints node to console. Pass to forEach traversal methods.
