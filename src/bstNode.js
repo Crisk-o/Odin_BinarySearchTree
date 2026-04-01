@@ -123,50 +123,56 @@ export class Tree{
                 }
                 return;
             }
-            /* target has ONE child */
+            /* target has ONE child either on left or right.*/
             else if((node.left != null && node.right == null) || (node.left == null && node.right != null)){
-                // TARGET'S LEFT CHILD EXISTS. NO RIGHT.
-                if(node.left != null){
-                    // target node is the left child of parent. 
-                    if(parentNode.left == node){
-                        // grab target's left child's info.
+                // TARGET'S CHILD ON LEFT. NO RIGHT.
+                if(node.left != null){  
+                    /* TARGET'S CHILD ON LEFT IS PARENT (W/ LEFT CHILD) */
+                    if(node.left.left){
                         let temp = node.left.info;
-                        // place that info into target node, overwriting current val.
-                        parentNode.left.info = temp;
-                        node.left = null;
+                        node.left.info = node.left.left.info;
+                        node.left.left = null; 
+                        node.info = temp; 
                     }
-                    // target node is the right child of parent. 
-                    else{ 
-                        // grab target's left child's info.
+                    // TARGET'S CHILD ON LEFT IS PARENT (W/ RIGHT CHILD);
+                    else if(node.left.right){
                         let temp = node.left.info;
-                        // place info into target node.
-                        parentNode.right.info = temp;
-                        // delete target node's child.
+                        node.left.info = node.left.right.info;
+                        node.left.right = null;
+                        node.info = temp;
+                    }
+                    // TARGET CHILD ON LEFT IS NOT A PARENT.
+                    else{
+                        let temp = node.left.info;
+                        node.info = temp;
                         node.left = null;
                     }
                 }
                 // TARGET'S RIGHT CHILD EXISTS. NO LEFT.
                 else if(node.right != null){
-                        // target node is the left child of parent. 
-                        if(parentNode.left == node){
-                        // grab target's left child's info.
+                /* TARGET'S CHILD ON RIGHT IS PARENT (W/ LEFT CHILD) */
+                    if(node.right.left){
                         let temp = node.right.info;
-                        // place that info into target node, overwriting current val.
-                        parentNode.left.info = temp;
-                        node.right = null;
+                        node.right.info = node.right.left.info;
+                        node.right.left = null; 
+                        node.info = temp; 
                     }
-                    // target node is the right child of parent. 
-                    else{ 
-                        // grab target's left child's info.
+                    // TARGET'S CHILD ON RIGHT IS PARENT (W/ RIGHT CHILD);
+                    else if(node.right.right){
                         let temp = node.right.info;
-                        // place info into target node.
-                        parentNode.right.info = temp;
-                        // delete target node's child.
+                        node.right.info = node.right.right.info;
+                        node.right.right = null;
+                        node.info = temp;
+                    }
+                    // TARGET CHILD ON RIGHT IS NOT A PARENT.
+                    else{
+                        let temp = node.right.info;
+                        node.info = temp;
                         node.right = null;
                     }
                 }
             }
-            /* target node has two children */
+            /* TARGET NODE HAS TWO CHILDREN */
             else if(node.left != null && node.right != null){
                 /* IF TARGET'S CHILDREN ARE PARENTS */
                  if(node.left.left != null || node.left.right != null || node.right.left != null || node.right.right != null){
@@ -183,13 +189,6 @@ export class Tree{
                     node.right = null;
                     // left child stays.
                 }
-                // // target is right of parent
-                // else if(parentNode.right == node){
-                //     let temp = node.right.info;
-                //     node.info = temp;
-                //     node.right = null;
-
-                // }
             }
         
         }
