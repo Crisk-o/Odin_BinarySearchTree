@@ -100,110 +100,54 @@ export class Tree{
         // predecessors and successors in alphabetical terms
         // 3) Removing Parents of Parents -
         if(this.includes(value)){
-            this.deleteItemHelper(this.root, value, this.root);
+            this.deleteItemHelperRecursively(this.root, value);
         }
         else{
-            console.log(this.includes(value));
-            return "Value not in tree.";
+            return false;
         }
         return true;
     }
-    deleteItemHelper(node, value, parentNode){
-        let parent = parentNode;        
-        if(node === null) return;
-        if(value == node.info){
-            /* target node is a leaf node */
-            if(node.left == null && node.right == null){
-                if(parentNode.left == node)
-                {
-                    parentNode.left = null;
-                }
-                else if(parentNode.right == node){
-                    parentNode.right = null;
-                }
-                return;
-            }
-            /* target has ONE child either on left or right.*/
-            else if((node.left != null && node.right == null) || (node.left == null && node.right != null)){
-                // TARGET'S CHILD ON LEFT. NO RIGHT.
-                if(node.left != null){  
-                    /* TARGET'S CHILD ON LEFT IS PARENT (W/ LEFT CHILD) */
-                    if(node.left.left){
-                        let temp = node.left.info;
-                        node.left.info = node.left.left.info;
-                        node.left.left = null; 
-                        node.info = temp; 
-                    }
-                    // TARGET'S CHILD ON LEFT IS PARENT (W/ RIGHT CHILD);
-                    else if(node.left.right){
-                        let temp = node.left.info;
-                        node.left.info = node.left.right.info;
-                        node.left.right = null;
-                        node.info = temp;
-                    }
-                    // TARGET CHILD ON LEFT IS NOT A PARENT.
-                    else{
-                        let temp = node.left.info;
-                        node.info = temp;
-                        node.left = null;
-                    }
-                }
-                // TARGET'S RIGHT CHILD EXISTS. NO LEFT.
-                else if(node.right != null){
-                /* TARGET'S CHILD ON RIGHT IS PARENT (W/ LEFT CHILD) */
-                    if(node.right.left){
-                        let temp = node.right.info;
-                        node.right.info = node.right.left.info;
-                        node.right.left = null; 
-                        node.info = temp; 
-                    }
-                    // TARGET'S CHILD ON RIGHT IS PARENT (W/ RIGHT CHILD);
-                    else if(node.right.right){
-                        let temp = node.right.info;
-                        node.right.info = node.right.right.info;
-                        node.right.right = null;
-                        node.info = temp;
-                    }
-                    // TARGET CHILD ON RIGHT IS NOT A PARENT.
-                    else{
-                        let temp = node.right.info;
-                        node.info = temp;
-                        node.right = null;
-                    }
-                }
-            }
-            /* TARGET NODE HAS TWO CHILDREN */
-            else if(node.left != null && node.right != null){
-                /* IF TARGET'S CHILDREN ARE PARENTS */
-                 if(node.left.left != null || node.left.right != null || node.right.left != null || node.right.right != null){
-                    
-                 }
-                ///////////////////////
-                /* TARGET'S CHILDREN AREN'T PARENTS */
-                // target is left of parent
-                if(parentNode.left == node || parentNode.right == node){
-                    // grab target's right child info.
-                    let temp = node.right.info;
-                    // target node val OVW.
-                    node.info = temp;
-                    node.right = null;
-                    // left child stays.
-                }
-            }
-        
+    // this is much better than my OG approach as it works for trees with large depths.
+    // my prev iterative approach only handled shallow trees and was getting very long/difficult to work with.
+    deleteItemHelperRecursively(node, value){
+        if(node === null) return null;
+        // searching for target....
+        // The parent is "waiting" for the result of the function to update its pointer
+        if(value < node.info){ // val is left of node
+            node.left = this.deleteItemHelperRecursively(node.left, value);
         }
-        else if(value < node.info){
-            parentNode = node;
-            this.deleteItemHelper(node.left, value, parentNode);
+        else if(value > node.info){ // val is right of node
+            node.right = this.deleteItemHelperRecursively(node.right, value);
         }
-        else{
-            parentNode = node;  
-            this.deleteItemHelper(node.right, value, parentNode);
+        // target found! value == node.info
+        else{ 
+            // case 1 and 2: Leaf and one child.
+            /* Explanation:
+                target node is found. Code enters 'else' block.
+                code checks if target.left is null. If so, returns the right side.
+                if target.right returns null, target node is updated with returned null value. (leaf)
+                if target.right or target.left != null, returns that value and OVW target's val. (one child)                
+            */
+            if(node.left === null) return node.right; // <--- IF LEAF, WE EXIT HERE with null
+            if(node.right === null) return node.left; // <--- IF ONE CHILD (LEFT), WE EXIT HERE
+            // case 3: two children
+            // get 'in-order' successor  (smallest in right subtree of target node)
+            let successor = this.min(node.right);
+            node.info = successor.info;
+            node.right = this.deleteItemHelperRecursively(node.right, successor.info);
         }
-        // this.includesHelper(node.right, value);
-        // this.includesHelper(node.left, value);
+        return node;
     }
-
+    min(node){
+        while(node.left !== null)
+            node = node.left;
+        return node;
+    }
+    max(node){
+        while(node.right !== null)
+            node = node.right;
+        return node;
+    }
     // traverses tree in breadth-first order
     // if no callback provided, throw an Error that callback is req.
     levelOrderForEach(callback){
