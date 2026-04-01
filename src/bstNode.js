@@ -90,6 +90,7 @@ export class Tree{
             return; // val in tree. Do nothing.
         let newNode = this.BSTadd(this.root, value);
     }
+
     // will return true on successful removal.
     deleteItem(value){
         // must search from root, find val, 3 cases:
@@ -106,16 +107,12 @@ export class Tree{
             return "Value not in tree.";
         }
         return true;
-        // do nothing if val not in tree.
     }
     deleteItemHelper(node, value, parentNode){
-        let parent = parentNode;
-        console.log("parentNode: " + parent);
-        console.log("current: " + node);
-        
+        let parent = parentNode;        
         if(node === null) return;
         if(value == node.info){
-            // if node w/ val is a leaf node
+            // target node is a leaf node
             if(node.left == null && node.right == null){
                 if(parentNode.left == node)
                 {
@@ -126,14 +123,31 @@ export class Tree{
                 }
                 return;
             }
-            // if node has one child
+            // target node has ONE child
             else if((node.left != null && node.right == null) || (node.left == null && node.right != null)){
-                // if left child exists
+                // TARGET'S LEFT CHILD EXISTS. NO RIGHT.
                 if(node.left != null){
-                    return node.left;
+                    // target node is the left child of parent. 
+                    if(parentNode.left == node){
+                        // grab target's left child's info.
+                        let temp = node.left.info;
+                        // place that info into target node, overwriting current val.
+                        parentNode.left.info = temp;
+                        node.left = null;
+                    }
+                    // target node is the right child of parent. 
+                    else{ 
+                        // grab target's left child's info.
+                        let temp = node.left.info;
+                        // place info into target node.
+                        parentNode.right.info = temp;
+                        // delete target node's child.
+                        node.left = null;
+                    }
                 }
-                // if right child exists
+                // TARGET'S RIGHT CHILD EXISTS. NO LEFT.
                 else if(node.right != null){
+                    parentNode.right = null;
                     return node.right;
                 }
                 // connect child of node to grandparent. remove child connection to node.
@@ -175,14 +189,16 @@ export class Tree{
                 myQ.enqueue(current.right);
         }
     }
-    // prints tree to console one node at time.
-    printTree = (current) => {
-        console.log(current.info + " ");
-    };
+
     // traverse tree in respective depth-first orders. throw error if no callback provided.
     inOrderForEach(callback){}
     preOrderForEach(callback){}
     postOrderForEach(callback){}
+
+        // prints tree to console one node at time.
+    printTree = (current) => {
+        console.log(current.info + " ");
+    };
     // returns height of node with given value. Return undef if not found.
     height(value){}
     // returns depth of node with given value. Return undef if not found.
