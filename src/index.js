@@ -28,6 +28,7 @@ prettyPrint(myTree.root);
 console.log("testing deleteItem(5) (node w/ one child who is parent): " + myTree.deleteItem(5));
 prettyPrint(myTree.root);
 // traversal testing:
+console.log("levelOrder: ");
 myTree.levelOrderForEach(myTree.printTree);
 console.log("preOrder: ");
 myTree.preOrderForEach(myTree.printTree);
@@ -35,5 +36,16 @@ console.log("inOrder: ")
 myTree.inOrderForEach(myTree.printTree);
 console.log("postOrder: ");
 myTree.postOrderForEach(myTree.printTree);
+console.log("testing height(23) (a leaf node): " + myTree.height(23)); // 0
+console.log("testing height(55) (on level 2 of 3): " + myTree.height(55)); // 1
+console.log("testing height(9) (the root): " + myTree.height(9)); // 3
+console.log("testing height(5555) (not in tree): " + myTree.height(5555)); // undefined
+console.log("testing depth....");
+console.log("testing depth(9) (the root level0/3): " + myTree.depth(9));
+console.log("testing depth(1) (@ level2/3): " + myTree.depth(1));
+console.log("testing depth(324) (level3/3): " + myTree.depth(324));
+prettyPrint(myTree.root);
+
+
 
 

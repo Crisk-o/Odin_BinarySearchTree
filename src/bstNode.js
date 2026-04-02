@@ -78,7 +78,7 @@ export class Tree{
         }
         // if value is less than node.info, 
         // value must be to left of node.
-        else if(value <= node.info){
+        else if(value < node.info){
             return this.includesHelper(node.left, value);
         }
         return this.includesHelper(node.right, value);
@@ -140,13 +140,13 @@ export class Tree{
     }
     // finds smallest value in tree starting from node down.
     min(node){
-        while(node.left !== null)
+        while(node.left != null)
             node = node.left;
         return node;
     }
     // finds largest value in tree starting from node down.
     max(node){
-        while(node.right !== null)
+        while(node.right != null)
             node = node.right;
         return node;
     }
@@ -225,24 +225,40 @@ export class Tree{
     // returns height of node with given value. Return undef if not found.
     height(value){
         if(this.includes(value)){
-            let height = 0;            
-            if(this.root.info == value){
-                return height;
-            }
-            while(this.root.left != null || this.root.right != null){
-                
-                height++;
-            }
-            // traverse to target node.
-
-            
+            let target = this.includesHelper(this.root, value);
+            return this.#heightHelper(target);  
         }
         return undefined;
     }
-    // returns depth of node with given value. Return undef if not found.
-    depth(value){
-        if(this.includes(value)){
+    #heightHelper(node){
+        if(node == null || (node.right == null && node.left == null)) return 0;
+        
+        return (1 + Math.max(this.#heightHelper(node.left), this.#heightHelper(node.right)));
+    }
 
+    // returns depth of node with given value. Return undef if not found.
+    // progress tree from root down to node w/ value, increasing depth count as tree level increases
+    depth(value){
+        if(this.root == null) return null;
+        if(this.includes(value)){
+            let depthCount = 0;
+            if(this.root.info == value) return depthCount;        
+            let myQ = new Queue();
+            let current = this.root;
+            let prev = this.root;
+            myQ.enqueue(current);
+            while(!myQ.isEmpty() && current.info != value){
+                if(current.info < prev.info){
+                    depthCount++;
+                }
+                current = myQ.dequeue();
+                if(current.left != null){
+                     myQ.enqueue(current.left);
+                }                
+                if(current.right != null)
+                    myQ.enqueue(current.right);
+            }
+            return depthCount+1;
         }
         return undefined;
     }
