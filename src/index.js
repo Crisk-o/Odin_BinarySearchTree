@@ -1,6 +1,4 @@
 import { BSTNode, Tree} from "./bstNode.js";
-import { LinkedLists } from "./linkedlists.js";
-import { Queue } from "./queue.js";
 const prettyPrint = (node, prefix = '', isLeft = true) => {
   if (node === null || node === undefined) {
     return;
