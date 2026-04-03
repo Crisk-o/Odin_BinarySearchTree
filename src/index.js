@@ -45,6 +45,7 @@ console.log("testing depth(9) (the root level0/3): " + myTree.depth(9));
 console.log("testing depth(1) (@ level2/3): " + myTree.depth(1));
 console.log("testing depth(324) (level3/3): " + myTree.depth(324));
 prettyPrint(myTree.root);
+// isBalanced() testing.
 console.log("testing isBalanced()...");
 console.log("Is tree balanced?: " + myTree.isBalanced()); // true;
 // making the tree unbalanced;
@@ -52,6 +53,11 @@ console.log("inserting values 68 and 69 into tree to make it unbalanced.");
 myTree.insert(68); myTree.insert(69);
 prettyPrint(myTree.root);
 console.log("Is tree balanced?: " + myTree.isBalanced()); // false
+console.log("testing rebalance().... ");
+myTree.rebalance();
+console.log("rebalanced tree now balanced? : " + myTree.isBalanced()); // true
+console.log("New BST layout: ");
+prettyPrint(myTree.root);
 
 
 

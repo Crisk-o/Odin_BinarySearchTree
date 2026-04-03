@@ -1,4 +1,3 @@
-import { LinkedLists } from "./linkedlists.js";
 import { Queue } from "./queue.js";
 export class BSTNode{
     constructor(info){
@@ -282,8 +281,23 @@ export class Tree{
     };
     // Rebalances unbalanced trees. 
     // Use traversal method to provide new array to buildTree funct.
-    rebalance(){}
-
-
-
+    
+    rebalance(){
+        if(this.isBalanced() === false){
+        let allNodes = [];
+        let myQ = new Queue();
+        myQ.enqueue(this.root);
+        while(!myQ.isEmpty()){
+            let current = myQ.dequeue();
+            allNodes.push(current.info);
+            if(current.left != null)
+                myQ.enqueue(current.left);
+            if(current.right != null)
+                myQ.enqueue(current.right);
+        }
+            this.#sortArray(allNodes);
+            this.root = this.#buildTree(allNodes);
+        }
+        return; 
+    }
 }
