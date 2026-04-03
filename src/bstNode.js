@@ -231,8 +231,7 @@ export class Tree{
         return undefined;
     }
     #heightHelper(node){
-        if(node == null || (node.right == null && node.left == null)) return 0;
-        
+        if(node == null || (node.right == null && node.left == null)) return -1;
         return (1 + Math.max(this.#heightHelper(node.left), this.#heightHelper(node.right)));
     }
 
@@ -265,7 +264,22 @@ export class Tree{
     // checks if tree is balanced. 
     // height diff btwn left/right subtrees is no more than 1 
     //    and both left/right subtrees are also balanced.
-    isBalanced(){};
+    isBalanced(){
+        if(this.root == null || this.root == undefined) return true;
+        let myQ = new Queue();
+        myQ.enqueue(this.root);
+        while(!myQ.isEmpty()){
+            let current = myQ.dequeue();
+            if((Math.abs(this.#heightHelper(current.left) - this.#heightHelper(current.right))) > 1){
+                return false;
+            };
+            if(current.left != null)
+                myQ.enqueue(current.left);
+            if(current.right != null)
+                myQ.enqueue(current.right);
+        }
+        return true;
+    };
     // Rebalances unbalanced trees. 
     // Use traversal method to provide new array to buildTree funct.
     rebalance(){}
